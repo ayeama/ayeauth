@@ -2,4 +2,4 @@
 Contributors
 ============
 
-* ayealexadams <alex.michael.adams@gmail.com>
+* ayeama <alex.michael.adams@gmail.com>

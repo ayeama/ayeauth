@@ -1,11 +1,19 @@
-# -*- coding: utf-8 -*-
-from pkg_resources import get_distribution, DistributionNotFound
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
-try:
-    # Change here if project is renamed and does not equal the package name
-    dist_name = __name__
-    __version__ = get_distribution(dist_name).version
-except DistributionNotFound:
-    __version__ = 'unknown'
-finally:
-    del get_distribution, DistributionNotFound
+from ayeauth.config import Config
+
+db = SQLAlchemy()
+
+
+def create():
+    app = Flask(__name__)
+    app.config.from_object(Config)
+
+    db.init_app(app)
+
+    from ayeauth.users.routes import users_bp
+
+    app.register_blueprint(users_bp, url_prefix='/users')
+
+    return app
