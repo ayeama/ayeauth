@@ -17,3 +17,14 @@ def index():
 @users_bp.route('/<username>')
 def profile(username):
     return {"hello": username}, 200
+
+
+@users_bp.route('/create')
+def create():
+    from ayeauth import db
+
+    db.create_all()
+    # user_datastore.create_user(email='a@a.com', password='password')
+    db.session.commit()
+
+    return {"hello": "world"}, 200
