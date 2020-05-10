@@ -17,11 +17,12 @@ Development
 
 Before you can contribute, you need to have pre-commit installed and configured.
 
-.. code-block:: python
-   pip install pre-commit
-   pre-commit
-   pre-commit install
-   pre-commit install-hooks
+"
+pip install pre-commit
+pre-commit
+pre-commit install
+pre-commit install-hooks
+"
 
 
 
