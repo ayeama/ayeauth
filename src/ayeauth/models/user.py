@@ -22,3 +22,9 @@ class User(BaseModel, UserMixin):
     roles = db.relationship(
         "Role", secondary="user_roles", backref=db.backref("users", lazy="dynamic")
     )
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.username})"
+
+    def __str__(self):
+        return f"{self.__class__.__name__}({self.username})"

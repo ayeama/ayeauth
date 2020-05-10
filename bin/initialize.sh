@@ -1,4 +1,4 @@
 #!/bin/bash
 
-# create database
-ayeauth database create
+# initialize database
+ayeauth database initialize
