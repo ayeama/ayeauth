@@ -1,7 +1,7 @@
 import click
 
 import ayeauth
-from ayeauth.models.user import User
+from ayeauth.models.user import UserDatastore
 
 
 @click.group()
@@ -28,7 +28,6 @@ def database(context):
 def database_initialize(context):
     with context.obj.app_context():
         ayeauth.db.create_all()
-        ayeauth.se.datastore.create_user(username="ayeama", password="password")
         ayeauth.db.session.commit()
 
 
@@ -50,9 +49,7 @@ def model_user(context):
 @click.pass_context
 def model_user_get(context, _all, username):
     with context.obj.app_context():
-        if _all:
-            click.echo(User.query.all())
-        click.echo(User.query.filter_by(username=username).first())
+        click.echo(UserDatastore().get(many=_all, username=username))
 
 
 @model_user.command("post")
@@ -62,8 +59,7 @@ def model_user_get(context, _all, username):
 @click.pass_context
 def model_user_post(context, username, password, role):
     with context.obj.app_context():
-        ayeauth.se.datastore.create_user(username=username, password=password)
-        ayeauth.db.session.commit()
+        UserDatastore().post(username=username, password=password)
 
 
 if __name__ == "__main__":
