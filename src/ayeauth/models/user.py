@@ -3,6 +3,7 @@ from flask_security.utils import hash_password
 
 from ayeauth import db
 from ayeauth.models import BaseDatastore, BaseModel
+from ayeauth.models.role import RoleDatastore
 
 
 class UserMixin(BaseUserMixin):
@@ -25,33 +26,55 @@ class User(BaseModel, UserMixin):
     )
 
     def __repr__(self):
-        return f"{self.__class__.__name__}({self.id}, {self.username})"
+        return self.id
 
     def __str__(self):
-        return f"{self.__class__.__name__}({self.id}, {self.username})"
+        return f"{self.__class__.__name__}({self.username})"
 
 
 class UserDatastore(BaseDatastore):
-    def get(self, many=False, **kwargs):
+    def get(self, id, many=False):
         if many:
             return User.query.all()
-        return User.query.filter_by(**kwargs).first()
+        return User.query.filter_by(id=id).first()
 
-    def post(self, **kwargs):
-        if kwargs.get("password", None) is not None:
-            kwargs["password"] = hash_password(kwargs["password"])
-
-        user = User(**kwargs)
+    def post(self, username, password):
+        password = hash_password(password)
+        user = User(username=username, password=password)
         db.session.add(user)
-        db.session.commit()
+        self.commit()
+        return user
 
-    def put(self, _id, **kwargs):
-        user = self.get(id=_id)
-        for key, value in kwargs.items():
-            setattr(user, key, value)
-        db.session.commit()
+    def put(self, id, username, password):
+        user = self.get(id=id)
+        if username is not None:
+            user.username = username
+        if password is not None:
+            user.password = hash_password(password)
+        self.commit()
+        return user
 
-    def delete(self, _id):
-        user = self.get(id=_id)
+    def delete(self, username):
+        user = self.get(username=username)
         db.session.delete(user)
-        db.session.commit()
+        self.commit()
+        return user
+
+    def add_role(self, user_id, role_id):
+        user = self.get(user_id)
+        role = RoleDatastore().get(role_id)
+        user.roles.append(role)
+        self.commit()
+        return user
+
+    def get_roles(self, user_id):
+        user = self.get(user_id)
+        roles = user.roles
+        return roles
+
+    def delete_role(self, user_id, role_id):
+        user = self.get(user_id)
+        role = RoleDatastore().get(role_id)
+        user.roles.remove(role)
+        self.commit()
+        return user

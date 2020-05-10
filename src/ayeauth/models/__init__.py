@@ -16,6 +16,9 @@ class BaseModel(db.Model):
 
 
 class BaseDatastore(ABC):
+    def commit(self):
+        db.session.commit()
+
     @abstractmethod
     def get(self):
         pass
