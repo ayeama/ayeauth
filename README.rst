@@ -12,6 +12,18 @@ Description
 A longer description of your project goes here...
 
 
+Development
+====
+
+Before you can contribute, you need to have pre-commit installed and configured.::
+
+    pip install pre-commit
+    pre-commit
+    pre-commit install
+    pre-commit install-hooks
+
+
+
 Note
 ====
 

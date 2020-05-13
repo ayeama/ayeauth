@@ -1,3 +1,4 @@
+from abc import ABC, abstractmethod
 from datetime import datetime
 
 from ayeauth import db, _get_uuid
@@ -12,3 +13,24 @@ class BaseModel(db.Model):
         db.DateTime(), nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow
     )
     deleted = db.Column(db.Boolean(), nullable=False, default=False)
+
+
+class BaseDatastore(ABC):
+    def commit(self):
+        db.session.commit()
+
+    @abstractmethod
+    def get(self):
+        pass
+
+    @abstractmethod
+    def post(self):
+        pass
+
+    @abstractmethod
+    def put(self):
+        pass
+
+    @abstractmethod
+    def delete(self):
+        pass
