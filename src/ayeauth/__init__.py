@@ -45,9 +45,11 @@ def create():
     from ayeauth.models.role import Role  # noqa: F401
     from ayeauth.models.user_role import UserRole  # noqa: F401
 
+    from ayeauth.home.routes import home_bp
     from ayeauth.auth.routes import auth_bp
     from ayeauth.users.routes import users_bp
 
+    app.register_blueprint(home_bp, url_prefix="/")
     app.register_blueprint(auth_bp, url_prefix="/")
     app.register_blueprint(users_bp, url_prefix="/users")
 
