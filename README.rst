@@ -7,6 +7,9 @@
 .. image:: https://readthedocs.org/projects/ayeauth/badge/?version=latest
    :target: https://ayeauth.readthedocs.io/en/latest/?badge=latest
 
+.. image:: https://img.shields.io/github/license/mattupstate/flask-security.svg
+   :target: https://github.com/ayeama/ayeauth/blob/master/LICENSE.txt
+
 
 =======
 ayeauth

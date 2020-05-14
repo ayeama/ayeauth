@@ -1,8 +1,16 @@
+from flask import abort, redirect, url_for
 from flask_login import AnonymousUserMixin, current_user
 from flask_principal import Identity, RoleNeed, UserNeed
 
 from ayeauth.auth.token import decode_jwt
 from ayeauth.models.user import User
+
+
+def unauthorized_handler():
+    if current_user.is_authenticated:
+        abort(401)
+    else:
+        return redirect(url_for("auth_bp.login"))
 
 
 def user_loader(user_id):

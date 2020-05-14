@@ -26,6 +26,7 @@ def create():
         request_loader,
         identity_loader,
         on_identity_loaded,
+        unauthorized_handler,
     )
     from ayeauth.models.user import AnonymousUser
 
@@ -33,6 +34,7 @@ def create():
     lm.anonymous_user = AnonymousUser
     lm.user_loader(user_loader)
     lm.request_loader(request_loader)
+    lm.unauthorized_handler(unauthorized_handler)
     pr.identity_loader(identity_loader)
 
     db.init_app(app)
