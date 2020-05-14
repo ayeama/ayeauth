@@ -4,6 +4,9 @@
 .. image:: https://coveralls.io/repos/github/ayeama/ayeauth/badge.svg?branch=master
    :target: https://coveralls.io/github/ayeama/ayeauth?branch=master
 
+.. image:: https://readthedocs.org/projects/ayeauth/badge/?version=latest
+   :target: https://ayeauth.readthedocs.io/en/latest/?badge=latest
+
 
 =======
 ayeauth
