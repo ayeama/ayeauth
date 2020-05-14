@@ -12,3 +12,6 @@ class BaseModel(db.Model):
         db.DateTime(), nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow
     )
     deleted = db.Column(db.Boolean(), nullable=False, default=False)
+
+    def __repr__(self):
+        return str(self.id)

@@ -34,9 +34,6 @@ class User(BaseModel, UserMixin):
         self.username = username
         self.password = hash_password(password)
 
-    def __repr__(self):
-        return str(self.id)
-
     def __str__(self):
         return str(self.username)
 

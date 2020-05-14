@@ -16,11 +16,14 @@ class RoleMixin:
 class Role(BaseModel, RoleMixin):
     __tablename__ = "roles"
 
-    name = db.Column(db.String(80), unique=True)
-    description = db.Column(db.String(255), unique=False)
+    name = db.Column(db.String(80), unique=True, nullable=False)
+    description = db.Column(db.String(255))
 
-    def __repr__(self):
-        return str(self.id)
+    def __init__(self, name, description):
+        super(Role, self).__init__()
+
+        self.name = name
+        self.description = description
 
     def __str__(self):
         return str(self.name)

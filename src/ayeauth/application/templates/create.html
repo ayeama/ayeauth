@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+
+{% block title %}<title>Application</title>{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-6">
+        <h1>Register Application</h1>
+        <br>
+
+        <form method="POST" action="{{ url_for('application_bp.create') }}">
+            {{ form.csrf_token }}
+
+            <div class="form-group">
+                {{ form.name.label }}
+                {{ form.name(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.description.label }}
+                {{ form.description(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.callback_url.label }}
+                {{ form.callback_url(class_="form-control") }}
+            </div>
+            <br>
+
+            <h2>Permissions</h2>
+            <br>
+
+            {% for scope in form.scope_list %}
+            <div class="form-group">
+                <div class="row">
+                    <div class="col">
+                        <p><strong>{{ scope.scope.label }}</strong><br>
+                        <small>{{ scope.scope.description }}</small></p>
+                    </div>
+
+                    <div class="col float-right">
+                        {{ scope.scope(class_="form-control") }}
+                    </div>
+                </div>
+            </div>
+            <br>
+            {% endfor %}
+            {{ form.submit(class_="btn btn-block btn-primary") }}
+        </form>
+    </div>
+</div>
+{% endblock %}

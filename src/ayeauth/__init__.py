@@ -46,13 +46,20 @@ def create():
     from ayeauth.models.user import User  # noqa: F401
     from ayeauth.models.role import Role  # noqa: F401
     from ayeauth.models.user_role import UserRole  # noqa: F401
+    from ayeauth.models.application import Application  # noqa: F401
+    from ayeauth.models.scope import Scope  # noqa: F401
+    from ayeauth.models.application_scope import ApplicationScope  # noqa: F401
 
     from ayeauth.home.routes import home_bp
     from ayeauth.auth.routes import auth_bp
+    from ayeauth.oauth.routes import oauth_bp
     from ayeauth.users.routes import users_bp
+    from ayeauth.application.routes import application_bp
 
     app.register_blueprint(home_bp, url_prefix="/")
     app.register_blueprint(auth_bp, url_prefix="/")
+    app.register_blueprint(oauth_bp, url_prefix="/oauth")
     app.register_blueprint(users_bp, url_prefix="/users")
+    app.register_blueprint(application_bp, url_prefix="/application")
 
     return app
