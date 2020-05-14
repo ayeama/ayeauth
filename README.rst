@@ -1,3 +1,10 @@
+.. image:: https://travis-ci.com/ayeama/ayeauth.svg?branch=master
+:target: https://travis-ci.com/ayeama/ayeauth
+
+.. image:: https://coveralls.io/repos/github/ayeama/ayeauth/badge.svg?branch=master
+:target: https://coveralls.io/github/ayeama/ayeauth?branch=master
+
+
 =======
 ayeauth
 =======
