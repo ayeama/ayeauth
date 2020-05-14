@@ -1,4 +1,4 @@
-from flask import Blueprint, current_app, redirect, render_template, request, url_for
+from flask import Blueprint, current_app, redirect, render_template, url_for
 from flask_login import login_user, logout_user
 from flask_principal import Identity, identity_changed
 
@@ -20,14 +20,14 @@ def register():
 
 @auth_bp.route("/login", methods=["GET", "POST"])
 def login():
-    form = LoginForm(request.form)
+    form = LoginForm()
 
     if form.validate_on_submit():
-        login_user(form.user, form.remember.data)
+        login_user(form.user, remember=form.remember.data)
         identity_changed.send(
-            current_app._get_current_object(), identity=Identity(form.user)
+            current_app._get_current_object(), identity=Identity(form.user.id)
         )
-        redirect("/")
+        return redirect(url_for("users_bp.index"))
 
     return render_template("/auth/login.html", form=form)
 
@@ -35,4 +35,4 @@ def login():
 @auth_bp.route("/logout", methods=["GET", "POST"])
 def logout():
     logout_user()
-    redirect(url_for("auth_bp.login"))
+    return redirect(url_for("auth_bp.login"))

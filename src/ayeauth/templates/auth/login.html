@@ -1,1 +1,25 @@
 {% extends "layout.html" %}
+
+{% block content %}
+<div>
+
+    <form method="POST" action="{{ url_for('auth_bp.login') }}">
+        {{ form.csrf_token }}
+
+        <div class="form-group">
+            {{ form.username.label }}
+            {{ form.username(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.password.label }}
+            {{ form.password(class_="form-control") }}
+        </div>
+        <div class="form-check">
+            {{ form.remember.label }}
+            {{ form.remember(class_="form-check-input") }}
+        </div>
+            {{ form.submit }}
+    </form>
+
+</div>
+{% endblock %}

@@ -1,3 +1,6 @@
+from flask_login import current_user
+from flask_principal import Identity, RoleNeed, UserNeed
+
 from ayeauth.auth.token import decode_jwt
 from ayeauth.models.user import User
 
@@ -19,3 +22,15 @@ def request_loader(request):
             raise NotImplementedError()
 
     return user
+
+
+def identity_loader():
+    return Identity(current_user.id)
+
+
+def on_identity_loaded(sender, identity):
+    if hasattr(current_user, "id"):
+        identity.provides.add(UserNeed(current_user.id))
+    for role in getattr(current_user, "roles", []):
+        identity.provides.add(RoleNeed(role.name))
+    identity.user = current_user

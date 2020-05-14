@@ -3,7 +3,7 @@ import uuid
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from flask_principal import Principal
+from flask_principal import Principal, identity_loaded
 
 from ayeauth.config import Config
 
@@ -21,15 +21,23 @@ def create():
     app = Flask(__name__)
     app.config.from_object(Config)
 
-    from ayeauth.auth.loader import user_loader, request_loader
+    from ayeauth.auth.loader import (
+        user_loader,
+        request_loader,
+        identity_loader,
+        on_identity_loaded,
+    )
 
     lm.login_view = "auth_bp.login"
     lm.user_loader(user_loader)
     lm.request_loader(request_loader)
+    pr.identity_loader(identity_loader)
 
     db.init_app(app)
     lm.init_app(app)
     pr.init_app(app)
+
+    identity_loaded.connect_via(app)(on_identity_loaded)
 
     from ayeauth.models.user import User  # noqa: F401
     from ayeauth.models.role import Role  # noqa: F401

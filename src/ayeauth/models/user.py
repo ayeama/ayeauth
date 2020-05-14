@@ -21,7 +21,7 @@ class User(BaseModel, UserMixin):
 
     username = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
-    active = db.Column(db.Boolean())
+    active = db.Column(db.Boolean(), default=True)
     roles = db.relationship(
         "Role", secondary="user_roles", backref=db.backref("users", lazy="dynamic")
     )

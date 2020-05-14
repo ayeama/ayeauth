@@ -19,7 +19,7 @@ class LoginForm(FlaskForm):
         if not super(LoginForm, self).validate():
             return False
 
-        self.user = User.query.filter_by(username=self.username.data)
+        self.user = User.query.filter_by(username=self.username.data).first()
 
         if self.user is None:
             return False
