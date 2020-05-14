@@ -2,11 +2,11 @@ class Config:
     DEBUG = True
     SECRET_KEY = "thisisasecret"
 
+    JWT_ALGORITHM = "HS256"
+    JWT_SECRET_KEY = "thisisasecret"
+    JWT_EXPIRATION = 60 * 60 * 24
+    JWT_ISSUER = "ayeauth"
+    JWT_AUDIENCE = "ayeama:ayeauth"
+
     SQLALCHEMY_DATABASE_URI = "sqlite:////tmp/ayeauth.db"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-
-    SECURITY_PASSWORD_SALT = "changeme"
-    SECURITY_TOKEN_MAX_AGE = 60 * 60 * 24
-    SECURITY_REGISTERABLE = True
-    SECURITY_TRACKABLE = False
-    SECURITY_USER_IDENTITY_ATTRIBUTES = ["username"]

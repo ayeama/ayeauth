@@ -11,4 +11,3 @@ USER_ROLE=$(ayeauth database model Role post --name user --description "Default 
 
 # create default users
 ADMIN_USER=$(ayeauth database model User post --username admin --password admin)
-ayeauth database model User add-role --user-id "${ADMIN_USER}" --role-id "${ADMIN_ROLE}"

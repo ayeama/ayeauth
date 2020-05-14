@@ -1,8 +1,9 @@
 import click
 
 import ayeauth
-from ayeauth.models.role import RoleDatastore
-from ayeauth.models.user import UserDatastore
+from ayeauth.auth.password import hash_password
+from ayeauth.models.role import Role
+from ayeauth.models.user import User
 
 
 @click.group()
@@ -45,12 +46,16 @@ def model_role(context):
 
 
 @model_role.command("get")
-@click.option("--all", "-a", "_all", is_flag=True)
+@click.option("--many", "-m", is_flag=True)
 @click.option("--id", "-i")
 @click.pass_context
-def model_role_get(context, _all, id):
+def model_role_get(context, many, id):
     with context.obj.app_context():
-        click.echo(repr(RoleDatastore().get(id, many=_all)))
+        if many:
+            role = Role.query.all()
+        else:
+            role = Role.query.filter_by(id=id).first()
+        click.echo(repr(role))
 
 
 @model_role.command("post")
@@ -59,7 +64,10 @@ def model_role_get(context, _all, id):
 @click.pass_context
 def model_role_post(context, name, description):
     with context.obj.app_context():
-        click.echo(repr(RoleDatastore().post(name, description)))
+        role = Role(name=name, description=description)
+        ayeauth.db.session.add(role)
+        ayeauth.db.session.commit()
+        click.echo(repr(role))
 
 
 @model_role.command("put")
@@ -69,7 +77,13 @@ def model_role_post(context, name, description):
 @click.pass_context
 def model_role_put(context, id, name, description):
     with context.obj.app_context():
-        click.echo(repr(RoleDatastore().put(id, name, description)))
+        role = Role.query.filter_by(id=id).first()
+        if name:
+            role.name = name
+        if description:
+            role.description = description
+        ayeauth.db.session.commit()
+        click.echo(repr(role))
 
 
 @model_role.command("delete")
@@ -77,7 +91,9 @@ def model_role_put(context, id, name, description):
 @click.pass_context
 def model_role_delete(context, id):
     with context.obj.app_context():
-        click.echo(repr(RoleDatastore().delete(id)))
+        role = Role.query.filter_by(id=id).first()
+        ayeauth.db.session.delete(role)
+        ayeauth.db.session.commit()
 
 
 @database_model.group("User")
@@ -86,39 +102,17 @@ def model_user(context):
     pass
 
 
-@model_user.command("add-role")
-@click.option("--user-id", "-u", required=True)
-@click.option("--role-id", "-r", required=True)
-@click.pass_context
-def model_user_add_role(context, user_id, role_id):
-    with context.obj.app_context():
-        click.echo(repr(UserDatastore().add_role(user_id, role_id)))
-
-
-@model_user.command("get-roles")
-@click.option("--user-id", "-u", required=True)
-@click.pass_context
-def model_user_get_roles(context, user_id):
-    with context.obj.app_context():
-        click.echo(repr(UserDatastore().get_roles(user_id)))
-
-
-@model_user.command("delete-role")
-@click.option("--user-id", "-u", required=True)
-@click.option("--role-id", "-r", required=True)
-@click.pass_context
-def model_user_delete_role(context, user_id, role_id):
-    with context.obj.app_context():
-        click.echo(repr(UserDatastore().delete_role(user_id, role_id)))
-
-
 @model_user.command("get")
-@click.option("--all", "-a", "_all", is_flag=True)
+@click.option("--many", "-a", is_flag=True)
 @click.option("--id", "-i")
 @click.pass_context
-def model_user_get(context, _all, id):
+def model_user_get(context, many, id):
     with context.obj.app_context():
-        click.echo(repr(UserDatastore().get(id, many=_all)))
+        if many:
+            user = User.query.all()
+        else:
+            user = User.query.filter_by(id=id).first()
+        click.echo(repr(user))
 
 
 @model_user.command("post")
@@ -127,7 +121,10 @@ def model_user_get(context, _all, id):
 @click.pass_context
 def model_user_post(context, username, password):
     with context.obj.app_context():
-        click.echo(repr(UserDatastore().post(username=username, password=password)))
+        user = User(username=username, password=password)
+        ayeauth.db.session.add(user)
+        ayeauth.db.session.commit()
+        click.echo(repr(user))
 
 
 @model_user.command("put")
@@ -137,7 +134,13 @@ def model_user_post(context, username, password):
 @click.pass_context
 def model_user_put(context, id, username, password):
     with context.obj.app_context():
-        click.echo(repr(UserDatastore().put(id, username, password)))
+        user = User.query.filter_by(id=id).first()
+        if username:
+            user.username = username
+        if password:
+            user.password = hash_password(password)
+        ayeauth.db.session.commit()
+        click.echo(repr(user))
 
 
 @model_user.command("delete")
@@ -145,7 +148,9 @@ def model_user_put(context, id, username, password):
 @click.pass_context
 def model_user_delete(context, id):
     with context.obj.app_context():
-        click.echo(repr(UserDatastore().delete(id)))
+        user = User.query.filter_by(id=id).first()
+        ayeauth.db.session.delete(user)
+        ayeauth.db.session.commit()
 
 
 if __name__ == "__main__":
