@@ -6,7 +6,20 @@ from ayeauth.models.user import User
 
 
 class RegisterForm(FlaskForm):
-    pass
+    username = StringField("Username", [validators.InputRequired()])
+    password = PasswordField("Password", [validators.InputRequired()])
+    confirm = PasswordField(
+        "Confirm password", [validators.InputRequired(), validators.EqualTo("password")]
+    )
+    submit = SubmitField("Register")
+
+    def validate(self):
+        user = User.query.filter_by(username=self.username.data).first()
+
+        if user is not None:
+            return False
+
+        return True
 
 
 class LoginForm(FlaskForm):

@@ -2,7 +2,9 @@ from flask import Blueprint, current_app, redirect, render_template, url_for
 from flask_login import current_user, login_user, logout_user
 from flask_principal import Identity, identity_changed
 
-from ayeauth.auth.forms import LoginForm
+from ayeauth import db
+from ayeauth.auth.forms import LoginForm, RegisterForm
+from ayeauth.models.user import User
 
 auth_bp = Blueprint(
     "auth_bp",
@@ -15,7 +17,16 @@ auth_bp = Blueprint(
 
 @auth_bp.route("/register", methods=["GET", "POST"])
 def register():
-    return render_template("/auth/register.html", user=current_user)
+    form = RegisterForm()
+
+    if form.validate_on_submit():
+        user = User(username=form.username.data, password=form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        login_user(user)
+        return redirect(url_for("users_bp.index"))
+
+    return render_template("/auth/register.html", form=form, user=current_user)
 
 
 @auth_bp.route("/login", methods=["GET", "POST"])

@@ -1,4 +1,6 @@
+from flask_login import AnonymousUserMixin
 from flask_login import UserMixin as BaseUserMixin
+from werkzeug.datastructures import ImmutableList
 
 from ayeauth import db
 from ayeauth.auth.password import hash_password
@@ -37,3 +39,11 @@ class User(BaseModel, UserMixin):
 
     def __str__(self):
         return str(self.username)
+
+
+class AnonymousUser(AnonymousUserMixin):
+    def __init__(self):
+        self.roles = ImmutableList()
+
+    def has_role(self, *args):
+        return False

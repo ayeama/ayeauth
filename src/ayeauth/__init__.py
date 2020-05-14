@@ -27,8 +27,10 @@ def create():
         identity_loader,
         on_identity_loaded,
     )
+    from ayeauth.models.user import AnonymousUser
 
     lm.login_view = "auth_bp.login"
+    lm.anonymous_user = AnonymousUser
     lm.user_loader(user_loader)
     lm.request_loader(request_loader)
     pr.identity_loader(identity_loader)

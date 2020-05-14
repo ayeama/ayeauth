@@ -1,4 +1,4 @@
-from flask_login import current_user
+from flask_login import AnonymousUserMixin, current_user
 from flask_principal import Identity, RoleNeed, UserNeed
 
 from ayeauth.auth.token import decode_jwt
@@ -25,7 +25,8 @@ def request_loader(request):
 
 
 def identity_loader():
-    return Identity(current_user.id)
+    if not isinstance(current_user._get_current_object(), AnonymousUserMixin):
+        return Identity(current_user.id)
 
 
 def on_identity_loaded(sender, identity):
