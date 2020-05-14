@@ -1,5 +1,5 @@
-sudo: false
 language: python
+os: linux
 virtualenv:
   system_site_packages: false
 
