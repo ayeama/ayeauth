@@ -1,6 +1,11 @@
+import uuid
 from datetime import datetime
 
-from ayeauth import db, _get_uuid
+from ayeauth import db
+
+
+def _get_uuid():
+    return str(uuid.uuid4())
 
 
 class BaseModel(db.Model):
