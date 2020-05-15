@@ -185,5 +185,31 @@ def model_scope_post(context, name, description):
         click.echo(repr(scope))
 
 
+@model_scope.command("put")
+@click.option("--id", "-i", required=True)
+@click.option("--name", "-n")
+@click.option("--description", "-d")
+@click.pass_context
+def model_scope_put(context, id, name, description):
+    with context.obj.app_context():
+        scope = Scope.query.filter_by(id=id).first()
+        if name:
+            Scope.name = name
+        if description:
+            scope.description = description
+        ayeauth.db.session.commit()
+        click.echo(repr(scope))
+
+
+@model_scope.command("delete")
+@click.option("--id", "-i", required=True)
+@click.pass_context
+def model_scope_delete(context, id):
+    with context.obj.app_context():
+        scope = Scope.query.filter_by(id=id).first()
+        ayeauth.db.session.delete(scope)
+        ayeauth.db.session.commit()
+
+
 if __name__ == "__main__":
     main()
