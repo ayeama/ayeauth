@@ -3,8 +3,8 @@ import click
 import ayeauth
 from ayeauth.auth.password import hash_password
 from ayeauth.models.role import Role
-from ayeauth.models.user import User
 from ayeauth.models.scope import Scope
+from ayeauth.models.user import User
 
 
 @click.group()
