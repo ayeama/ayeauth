@@ -4,6 +4,8 @@ from flask_login import current_user, login_required
 from ayeauth import db
 from ayeauth.application.forms import ApplicationForm
 from ayeauth.models.application import Application
+from ayeauth.models.application_scope import ApplicationScope
+from ayeauth.models.scope import Scope, ScopeAccess
 
 application_bp = Blueprint(
     "application_bp",
@@ -23,6 +25,10 @@ def create():
         application = Application(
             form.name.data, form.description.data, form.callback_url.data
         )
+        application_scope = ApplicationScope(scope_access=ScopeAccess.NO_ACCESS)
+        application_scope.scope = Scope.query.filter_by(name="Username").first()
+        application.scopes.append(application_scope)
+
         db.session.add(application)
         db.session.commit()
 

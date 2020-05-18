@@ -10,6 +10,8 @@ class Application(BaseModel):
     callback_url = db.Column(db.String(), nullable=False)
     client_id = db.Column(db.String(36), nullable=False, default=_get_uuid)
 
+    scopes = db.relationship("ApplicationScope", back_populates="application")
+
     def __init__(self, name, description, callback_url):
         super(Application, self).__init__()
 
