@@ -3,7 +3,6 @@ import click
 import ayeauth
 from ayeauth.auth.password import hash_password
 from ayeauth.models.role import Role
-from ayeauth.models.scope import Scope
 from ayeauth.models.user import User
 
 
@@ -151,63 +150,6 @@ def model_user_delete(context, id):
     with context.obj.app_context():
         user = User.query.filter_by(id=id).first()
         ayeauth.db.session.delete(user)
-        ayeauth.db.session.commit()
-
-
-@database_model.group("Scope")
-@click.pass_context
-def model_scope(context):
-    pass
-
-
-@model_scope.command("get")
-@click.option("--many", "-a", is_flag=True)
-@click.option("--id", "-i")
-@click.pass_context
-def model_scope_get(context, many, id):
-    with context.obj.app_context():
-        if many:
-            scope = Scope.query.all()
-        else:
-            scope = Scope.query.filter_by(id=id).first()
-        click.echo(repr(scope))
-
-
-@model_scope.command("post")
-@click.option("--name", "-n", required=True)
-@click.option("--description", "-d")
-@click.pass_context
-def model_scope_post(context, name, description):
-    with context.obj.app_context():
-        scope = Scope(name, description)
-        ayeauth.db.session.add(scope)
-        ayeauth.db.session.commit()
-        click.echo(repr(scope))
-
-
-@model_scope.command("put")
-@click.option("--id", "-i", required=True)
-@click.option("--name", "-n")
-@click.option("--description", "-d")
-@click.pass_context
-def model_scope_put(context, id, name, description):
-    with context.obj.app_context():
-        scope = Scope.query.filter_by(id=id).first()
-        if name:
-            Scope.name = name
-        if description:
-            scope.description = description
-        ayeauth.db.session.commit()
-        click.echo(repr(scope))
-
-
-@model_scope.command("delete")
-@click.option("--id", "-i", required=True)
-@click.pass_context
-def model_scope_delete(context, id):
-    with context.obj.app_context():
-        scope = Scope.query.filter_by(id=id).first()
-        ayeauth.db.session.delete(scope)
         ayeauth.db.session.commit()
 
 

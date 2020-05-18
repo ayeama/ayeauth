@@ -24,26 +24,6 @@
                 {{ form.callback_url.label }}
                 {{ form.callback_url(class_="form-control") }}
             </div>
-            <br>
-
-            <h2>Permissions</h2>
-            <br>
-
-            {% for ssf in form.scope_select_fields %}
-            <div class="form-group">
-                <div class="row">
-                    <div class="col">
-                        <p><strong>{{ ssf.scope.label }}</strong><br>
-                        <small>{{ ssf.scope.description }}</small></p>
-                    </div>
-
-                    <div class="col float-right">
-                        {{ ssf.scope(class_="form-control") }}
-                    </div>
-                </div>
-            </div>
-            <br>
-            {% endfor %}
             {{ form.submit(class_="btn btn-block btn-primary") }}
         </form>
     </div>

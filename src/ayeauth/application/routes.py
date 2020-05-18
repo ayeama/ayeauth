@@ -1,7 +1,9 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, redirect, render_template, url_for
 from flask_login import current_user, login_required
 
-from ayeauth.application.forms import ApplicationForm, scope_select_fields
+from ayeauth import db
+from ayeauth.application.forms import ApplicationForm
+from ayeauth.models.application import Application
 
 application_bp = Blueprint(
     "application_bp",
@@ -16,9 +18,14 @@ application_bp = Blueprint(
 @login_required
 def create():
     form = ApplicationForm()
-    form.scope_select_fields = scope_select_fields()
 
     if form.validate_on_submit():
-        pass
+        application = Application(
+            form.name.data, form.description.data, form.callback_url.data
+        )
+        db.session.add(application)
+        db.session.commit()
+
+        return redirect(url_for("home_bp.index"))
 
     return render_template("create.html", form=form, user=current_user)

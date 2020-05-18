@@ -9,11 +9,6 @@ class Application(BaseModel):
     description = db.Column(db.String())
     callback_url = db.Column(db.String(), nullable=False)
     client_id = db.Column(db.String(36), nullable=False, default=_get_uuid)
-    scopes = db.relationship(
-        "Scope",
-        secondary="application_scopes",
-        backref=db.backref("applications", lazy="dynamic"),
-    )
 
     def __init__(self, name, description, callback_url):
         super(Application, self).__init__()
