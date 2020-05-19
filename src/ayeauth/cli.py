@@ -33,6 +33,14 @@ def database_initialize(context):
         ayeauth.db.session.commit()
 
 
+@database.command("delete")
+@click.pass_context
+def database_delete(context):
+    with context.obj.app_context():
+        ayeauth.db.drop_all()
+        ayeauth.db.session.commit()
+
+
 @database.group("model")
 @click.pass_context
 def database_model(context):
