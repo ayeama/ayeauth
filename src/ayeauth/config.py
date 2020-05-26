@@ -8,5 +8,5 @@ class Config:
     JWT_ISSUER = "ayeauth"
     JWT_AUDIENCE = "ayeama:ayeauth"
 
-    SQLALCHEMY_DATABASE_URI = "sqlite:////tmp/ayeauth.db"
+    SQLALCHEMY_DATABASE_URI = "sqlite:////home/alexander/ayeauth.db"
     SQLALCHEMY_TRACK_MODIFICATIONS = False

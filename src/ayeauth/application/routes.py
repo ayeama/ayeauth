@@ -48,7 +48,7 @@ def create():
 
     if form.validate_on_submit():
         application = Application(
-            form.name.data, form.description.data, form.callback_url.data
+            form.name.data, form.description.data, form.redirect_uri.data
         )
         db.session.add(application)
         for scope in [x for x in form if x.id.startswith("scope_")]:

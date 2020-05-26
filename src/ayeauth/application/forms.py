@@ -7,7 +7,7 @@ from ayeauth.models.application import Application
 class ApplicationForm(FlaskForm):
     name = StringField("Name", [validators.InputRequired()])
     description = TextAreaField("Description")
-    callback_url = StringField("Callback URL", [validators.InputRequired()])
+    redirect_uri = StringField("Redirect URI", [validators.InputRequired()])
     submit = SubmitField("Register Application")
 
     def validate(self):
