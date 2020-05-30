@@ -15,7 +15,6 @@ class Scope(BaseModel):
 
     name = db.Column(db.String(80), unique=True, nullable=False)
     description = db.Column(db.String(255))
-
     applications = db.relationship("ApplicationScope", back_populates="scope")
 
     def __init__(self, name, description):

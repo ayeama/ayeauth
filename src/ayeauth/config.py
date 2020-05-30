@@ -2,6 +2,8 @@ class Config:
     DEBUG = True
     SECRET_KEY = "thisisasecret"
 
+    AUTHORIZATION_CODE_EXPIRY = 60 * 1
+
     JWT_ALGORITHM = "HS256"
     JWT_SECRET_KEY = "thisisasecret"
     JWT_EXPIRATION = 60 * 60 * 24

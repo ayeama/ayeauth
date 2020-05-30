@@ -40,9 +40,13 @@ def create():
     from ayeauth.models.user import User  # noqa: F401
     from ayeauth.models.role import Role  # noqa: F401
     from ayeauth.models.user_role import UserRole  # noqa: F401
+    from ayeauth.models.user_authorized_application import (  # noqa: F401
+        UserAuthorizedApplication,
+    )
     from ayeauth.models.application import Application  # noqa: F401
     from ayeauth.models.scope import Scope  # noqa: F401
     from ayeauth.models.application_scope import ApplicationScope  # noqa: F401
+    from ayeauth.models.authorization_code import AuthorizationCode  # noqa: F401
 
     from ayeauth.home.routes import home_bp
     from ayeauth.auth.routes import auth_bp

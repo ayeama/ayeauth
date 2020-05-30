@@ -27,6 +27,11 @@ class User(BaseModel, UserMixin):
     roles = db.relationship(
         "Role", secondary="user_roles", backref=db.backref("users", lazy="dynamic")
     )
+    authorized_applications = db.relationship(
+        "Application",
+        secondary="user_authorized_applications",
+        backref=db.backref("users", lazy="dynamic"),
+    )
 
     def __init__(self, username, password):
         super(User, self).__init__()

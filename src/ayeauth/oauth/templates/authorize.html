@@ -9,7 +9,7 @@
         <h1>Authorize Application</h1>
         <br>
 
-        <form method="POST" action="{{ url_for('oauth_bp.authorize', response_type=response_type, client_id=client_id, redirect_uri=redirect_uri, scopes=scopes, state=state) }}">
+        <form method="POST" action="{{ url_for('oauth_bp.authorize', response_type=response_type, client_id=client_id, redirect_uri=redirect_uri, scope=scopes, state=state) }}">
             {{ form.csrf_token }}
             {{ form.allow(class_="btn btn-block btn-success") }}
         </form>
