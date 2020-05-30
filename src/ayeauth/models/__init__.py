@@ -18,5 +18,8 @@ class BaseModel(db.Model):
     )
     deleted = db.Column(db.Boolean(), nullable=False, default=False)
 
+    def __eq__(self, other):
+        return str(self.id) == str(other.id)
+
     def __repr__(self):
         return str(self.id)
