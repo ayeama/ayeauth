@@ -26,7 +26,7 @@ def register():
         login_user(user)
         return redirect(url_for("home_bp.index"))
 
-    return render_template("/auth/register.html", form=form, user=current_user)
+    return render_template("/register.html", form=form, user=current_user)
 
 
 @auth_bp.route("/login", methods=["GET", "POST"])
@@ -40,7 +40,7 @@ def login():
         )
         return redirect(url_for("home_bp.index"))
 
-    return render_template("/auth/login.html", form=form, user=current_user)
+    return render_template("/login.html", form=form, user=current_user)
 
 
 @auth_bp.route("/logout", methods=["GET", "POST"])

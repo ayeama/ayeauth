@@ -33,6 +33,14 @@ def database_initialize(context):
         ayeauth.db.session.commit()
 
 
+@database.command("delete")
+@click.pass_context
+def database_delete(context):
+    with context.obj.app_context():
+        ayeauth.db.drop_all()
+        ayeauth.db.session.commit()
+
+
 @database.group("model")
 @click.pass_context
 def database_model(context):
@@ -64,7 +72,7 @@ def model_role_get(context, many, id):
 @click.pass_context
 def model_role_post(context, name, description):
     with context.obj.app_context():
-        role = Role(name=name, description=description)
+        role = Role(name, description)
         ayeauth.db.session.add(role)
         ayeauth.db.session.commit()
         click.echo(repr(role))
@@ -121,7 +129,7 @@ def model_user_get(context, many, id):
 @click.pass_context
 def model_user_post(context, username, password):
     with context.obj.app_context():
-        user = User(username=username, password=password)
+        user = User(username, password)
         ayeauth.db.session.add(user)
         ayeauth.db.session.commit()
         click.echo(repr(user))

@@ -1,6 +1,11 @@
+import uuid
 from datetime import datetime
 
-from ayeauth import db, _get_uuid
+from ayeauth import db
+
+
+def _get_uuid():
+    return str(uuid.uuid4())
 
 
 class BaseModel(db.Model):
@@ -12,3 +17,9 @@ class BaseModel(db.Model):
         db.DateTime(), nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow
     )
     deleted = db.Column(db.Boolean(), nullable=False, default=False)
+
+    def __eq__(self, other):
+        return str(self.id) == str(other.id)
+
+    def __repr__(self):
+        return str(self.id)

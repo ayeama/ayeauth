@@ -1,3 +1,8 @@
+=======
+ayeauth
+=======
+
+
 .. image:: https://travis-ci.com/ayeama/ayeauth.svg?branch=master
    :target: https://travis-ci.com/ayeama/ayeauth
 
@@ -9,11 +14,6 @@
 
 .. image:: https://img.shields.io/github/license/mattupstate/flask-security.svg
    :target: https://github.com/ayeama/ayeauth/blob/master/LICENSE.txt
-
-
-=======
-ayeauth
-=======
 
 
 the ayeama authentication server

@@ -1,5 +1,3 @@
-import uuid
-
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
@@ -13,17 +11,13 @@ lm = LoginManager()
 pr = Principal()
 
 
-def _get_uuid():
-    return str(uuid.uuid4())
-
-
 def create():
     app = Flask(__name__)
     app.config.from_object(Config)
 
-    from ayeauth.auth.loader import (
+    from ayeauth.loader import (
         user_loader,
-        request_loader,
+        # request_loader,
         identity_loader,
         on_identity_loaded,
         unauthorized_handler,
@@ -33,7 +27,7 @@ def create():
     lm.login_view = "auth_bp.login"
     lm.anonymous_user = AnonymousUser
     lm.user_loader(user_loader)
-    lm.request_loader(request_loader)
+    # lm.request_loader(request_loader)
     lm.unauthorized_handler(unauthorized_handler)
     pr.identity_loader(identity_loader)
 
@@ -46,13 +40,24 @@ def create():
     from ayeauth.models.user import User  # noqa: F401
     from ayeauth.models.role import Role  # noqa: F401
     from ayeauth.models.user_role import UserRole  # noqa: F401
+    from ayeauth.models.user_authorized_application import (  # noqa: F401
+        UserAuthorizedApplication,
+    )
+    from ayeauth.models.application import Application  # noqa: F401
+    from ayeauth.models.scope import Scope  # noqa: F401
+    from ayeauth.models.application_scope import ApplicationScope  # noqa: F401
+    from ayeauth.models.authorization_code import AuthorizationCode  # noqa: F401
 
     from ayeauth.home.routes import home_bp
     from ayeauth.auth.routes import auth_bp
-    from ayeauth.users.routes import users_bp
+    from ayeauth.oauth.routes import oauth_bp
+    from ayeauth.user.routes import user_bp
+    from ayeauth.application.routes import application_bp
 
     app.register_blueprint(home_bp, url_prefix="/")
     app.register_blueprint(auth_bp, url_prefix="/")
-    app.register_blueprint(users_bp, url_prefix="/users")
+    app.register_blueprint(oauth_bp, url_prefix="/oauth")
+    app.register_blueprint(user_bp, url_prefix="/user")
+    app.register_blueprint(application_bp, url_prefix="/application")
 
     return app

@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+
+{% block title %}<title>Application</title>{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-6">
+        <h1>Register Application</h1>
+        <br>
+
+        <form method="POST" action="{{ url_for('application_bp.create') }}">
+            {{ form.csrf_token }}
+
+            <div class="form-group">
+                {{ form.name.label }}
+                {{ form.name(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.description.label }}
+                {{ form.description(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.redirect_uri.label }}
+                {{ form.redirect_uri(class_="form-control") }}
+            </div>
+            <br>
+
+            <h2>Permissions</h2>
+            <br>
+            {% for x in form if x.id.startswith("scope_") %}
+            <div class="form-group">
+                <div class="row">
+                    <div class="col">
+                        <p><small><strong>{{ x.label }}</strong><br>{{ x.description }}</small></p>
+                    </div>
+                    <div class="col">
+                        {{ x(class_="form-control") }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <br>
+
+            {{ form.submit(class_="btn btn-block btn-primary") }}
+        </form>
+    </div>
+</div>
+{% endblock %}

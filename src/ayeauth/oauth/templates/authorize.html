@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+
+{% block title %}<title>Authorize Application</title>{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-6">
+        <h1>Authorize Application</h1>
+        <br>
+
+        <form method="POST" action="{{ url_for('oauth_bp.authorize', response_type=response_type, client_id=client_id, redirect_uri=redirect_uri, scope=scopes, state=state) }}">
+            {{ form.csrf_token }}
+            {{ form.allow(class_="btn btn-block btn-success") }}
+        </form>
+    </div>
+</div>
+{% endblock %}
