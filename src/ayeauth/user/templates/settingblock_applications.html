@@ -1,0 +1,35 @@
+<ul class="nav nav-tabs" id="appTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="home-tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Authorized OAuth Applications</a>
+    </li>
+</ul>
+
+<div class="tab-content" id="appTabContent">
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <br>
+        <div>
+            <p>You have granted <b>{{ user.authorized_applications|length }} applications</b> access to your account.</p>
+        </div>
+
+        {% for authorized_application in user.authorized_applications %}
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-auto">
+                        <!-- ICON -->
+                    </div>
+
+                    <div class="col">
+                        <a href="#"><b>{{ authorized_application.name }}</b></a>
+                        <p>{{ authorized_application.description }}</p>
+                    </div>
+
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-danger">Revoke</button>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        {% endfor %}
+    </div>
+</div>

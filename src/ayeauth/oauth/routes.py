@@ -66,6 +66,7 @@ def authorize():
         auth_code = AuthorizationCode(
             datetime.utcnow()
             + timedelta(seconds=current_app.config["AUTHORIZATION_CODE_EXPIRY"]),
+            state,
             current_user.id,
             application.id,
         )
