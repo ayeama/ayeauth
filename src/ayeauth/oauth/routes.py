@@ -111,7 +111,9 @@ def token():
     return (
         {
             "access_token": access_token,
+            "token_type": "bearer",
             "expires_in": current_app.config["JWT_EXPIRATION"],
+            "state": auth_code.state,
         },
         200,
     )
