@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, render_template, url_for
+from flask import Blueprint, current_app, redirect, render_template, url_for
 from flask_login import current_user, login_required
 from wtforms import SelectField
 
@@ -33,11 +33,16 @@ def _generate_scope_fields():
 @application_bp.route("/test")
 def test():
     sa = Scope("Username", "View your username")
-    sb = Scope("Scopes", "View your scopes")
     db.session.add(sa)
-    db.session.add(sb)
     db.session.commit()
+    print(f"Username:{sa}")
     return redirect(url_for("home_bp.index"))
+
+
+@application_bp.route("/")
+@login_required
+def index():
+    return {"JWT_PUBLIC_KEY": current_app.config["JWT_PUBLIC_KEY"]}, 200
 
 
 @application_bp.route("/create", methods=["GET", "POST"])

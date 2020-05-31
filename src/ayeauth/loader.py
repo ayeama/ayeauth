@@ -2,7 +2,7 @@ from flask import abort, redirect, url_for
 from flask_login import AnonymousUserMixin, current_user
 from flask_principal import Identity, RoleNeed, UserNeed
 
-from ayeauth.auth.token import decode_jwt
+# from ayeauth.auth.token import decode_jwt
 from ayeauth.models.user import User
 
 
@@ -23,11 +23,11 @@ def request_loader(request):
     if auth_header is not None:
         auth_type, auth_token = auth_header.split(" ")
 
-        if auth_type == "Bearer":
-            payload = decode_jwt(auth_token)
-            user = User.query.filter_by(id=payload["id"]).first()
-        elif auth_type == "Basic":
-            raise NotImplementedError()
+        # if auth_type == "Bearer":
+        #    payload = decode_jwt(auth_token)
+        #    user = User.query.filter_by(id=payload["id"]).first()
+        # elif auth_type == "Basic":
+        #    raise NotImplementedError()
 
     return user
 

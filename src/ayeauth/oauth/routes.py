@@ -15,6 +15,7 @@ from ayeauth import db
 from ayeauth.models.application import Application
 from ayeauth.models.authorization_code import AuthorizationCode
 from ayeauth.oauth.forms import AllowApplicationForm
+from ayeauth.oauth.token import encode_jwt
 
 oauth_bp = Blueprint(
     "oauth_bp",
@@ -89,4 +90,33 @@ def authorize():
 
 @oauth_bp.route("/token", methods=["POST"])
 def token():
+    grant_type = request.args["grant_type"]
+    code = request.args["code"]
+    redirect_uri = request.args["redirect_uri"]
+    client_id = request.args["client_id"]
+    # client_secret = request.args["client_secret"]
+
+    if grant_type != "authorization_code":
+        abort(400)
+
+    auth_code = AuthorizationCode.query.filter_by(code=code).first()
+    if auth_code is None or auth_code.expiry < datetime.utcnow():
+        abort(400)
+
+    application = Application.query.filter_by(client_id=client_id).first()
+    if application is None or application.redirect_uri != redirect_uri:
+        abort(400)
+
+    access_token = encode_jwt(auth_code.user_id, application.client_id).decode()
+    return (
+        {
+            "access_token": access_token,
+            "expires_in": current_app.config["JWT_EXPIRATION"],
+        },
+        200,
+    )
+
+
+@oauth_bp.route("/userinfo")
+def userinfo():
     pass

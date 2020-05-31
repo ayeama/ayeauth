@@ -4,15 +4,14 @@ import jwt
 from flask import current_app
 
 
-def encode_jwt(user_id):
-    now = datetime.utc_now()
-    secret = current_app.config["JWT_SECRET_KEY"]
+def encode_jwt(user_id, audience):
+    now = datetime.utcnow()
+    secret = current_app.config["JWT_PRIVATE_KEY"]
     algorithm = current_app.config["JWT_ALGORITHM"]
 
     expiration = now + timedelta(seconds=current_app.config["JWT_EXPIRATION"])
     not_before = now
     issuer = current_app.config["JWT_ISSUER"]
-    audience = current_app.config["JWT_AUDIENCE"]
     issued_at = now
 
     payload = {
@@ -24,13 +23,10 @@ def encode_jwt(user_id):
         "iat": issued_at,
     }
 
-    return jwt.encode(payload, secret, algorithums=list(algorithm))
+    return jwt.encode(payload, secret, algorithm=algorithm)
 
 
-def decode_jwt(token):
-    secret = current_app.config["JWT_SECRET_KEY"]
+def decode_jwt(token, audience):
+    secret = current_app.config["JWT_PUBLIC_KEY"]
     algorithm = current_app.config["JWT_ALGORITHM"]
-    audience = current_app.config["JWT_AUDIENCE"]
-    return jwt.decode(
-        token, secret, audience=list(audience), algorithms=list(algorithm)
-    )
+    return jwt.decode(token, secret, audience=audience, algorithms=algorithm)
