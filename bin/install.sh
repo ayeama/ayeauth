@@ -2,8 +2,6 @@
 
 set -x
 
-mkdir -p env
-
 # generate JWT key pair
 openssl genrsa -out "env/$KEY_NAME.private" 4096
 openssl rsa -in "env/$KEY_NAME.private" -out "env/$KEY_NAME.public" -pubout -outform PEM
