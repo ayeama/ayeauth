@@ -1,8 +1,8 @@
-from flask import Blueprint, abort, render_template, flash, redirect, url_for, request
+from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 
-from ayeauth.user.forms import ChangePasswordForm
 from ayeauth.models.user import User
+from ayeauth.user.forms import ChangePasswordForm
 
 user_bp = Blueprint(
     "user_bp",
@@ -43,7 +43,11 @@ def settings(setting=SETTING_LIST[0]):
             flash("Successfully changed password", "success")
             return redirect(url_for("user_bp.settings", setting="profile"))
         if request.method == "POST":
-            flash("Failure to change password. Make sure you have entered your current password and that the new passwords match", "danger")
+            flash(
+                "Failure to change password. Make sure you have entered your "
+                " current password and that the new passwords match",
+                "danger",
+            )
         template_kwargs["change_password_form"] = change_password_form
 
     return render_template("settings.html", user=current_user, **template_kwargs)

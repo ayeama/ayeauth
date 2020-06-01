@@ -1,4 +1,4 @@
-from flask import Blueprint, current_app, redirect, render_template, url_for
+from flask import Blueprint, redirect, render_template, url_for
 from flask_login import current_user, login_required
 from wtforms import SelectField
 
@@ -43,7 +43,9 @@ def test():
 @login_required
 def index():
     applications = Application.query.all()
-    return render_template("application.html", applications=applications, user=current_user)
+    return render_template(
+        "application.html", applications=applications, user=current_user
+    )
 
 
 @application_bp.route("/create", methods=["GET", "POST"])

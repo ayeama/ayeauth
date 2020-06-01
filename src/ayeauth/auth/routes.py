@@ -1,4 +1,12 @@
-from flask import Blueprint, current_app, redirect, render_template, url_for, flash, request
+from flask import (
+    Blueprint,
+    current_app,
+    flash,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
 from flask_login import current_user, login_user, logout_user
 from flask_principal import AnonymousIdentity, Identity, identity_changed
 
