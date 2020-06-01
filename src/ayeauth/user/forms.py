@@ -15,6 +15,9 @@ class ChangePasswordForm(FlaskForm):
     submit = SubmitField("Change password")
 
     def validate(self):
+        if not super(ChangePasswordForm, self).validate():
+            return False
+
         if not verify_password(self.current_password.data, current_user.password):
             return False
 

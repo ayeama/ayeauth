@@ -14,6 +14,9 @@ class RegisterForm(FlaskForm):
     submit = SubmitField("Register")
 
     def validate(self):
+        if not super(RegisterForm, self).validate():
+            return False
+
         user = User.query.filter_by(username=self.username.data).first()
 
         if user is not None:
