@@ -48,7 +48,7 @@ def create():
     from ayeauth.models.application_scope import ApplicationScope  # noqa: F401
     from ayeauth.models.authorization_code import AuthorizationCode  # noqa: F401
 
-    from ayeauth.home.routes import home_bp
+    from ayeauth.home.routes import home_bp, error_page
     from ayeauth.auth.routes import auth_bp
     from ayeauth.oauth.routes import oauth_bp
     from ayeauth.user.routes import user_bp
@@ -59,5 +59,10 @@ def create():
     app.register_blueprint(oauth_bp, url_prefix="/oauth")
     app.register_blueprint(user_bp, url_prefix="/user")
     app.register_blueprint(application_bp, url_prefix="/application")
+
+    app.register_error_handler(403, error_page)
+    app.register_error_handler(404, error_page)
+    app.register_error_handler(410, error_page)
+    app.register_error_handler(500, error_page)
 
     return app

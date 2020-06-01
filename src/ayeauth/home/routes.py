@@ -13,3 +13,7 @@ home_bp = Blueprint(
 @home_bp.route("/")
 def index():
     return render_template("index.html", user=current_user)
+
+
+def error_page(e):
+    return render_template("error.html", error=e, user=current_user), e.code

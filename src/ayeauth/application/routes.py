@@ -42,7 +42,8 @@ def test():
 @application_bp.route("/")
 @login_required
 def index():
-    return {"JWT_PUBLIC_KEY": current_app.config["JWT_PUBLIC_KEY"]}, 200
+    applications = Application.query.all()
+    return render_template("application.html", applications=applications, user=current_user)
 
 
 @application_bp.route("/create", methods=["GET", "POST"])

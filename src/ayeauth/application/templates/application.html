@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block title %}<title>Applications</title>{% endblock %}
+
+{% block content %}
+<h1>Applications</h1>
+<br>
+
+{% for application in applications %}
+<ul class="list-group list-group-flush">
+    <li class="list-group-item">
+        <div class="row">
+            <div class="col-auto">
+                <!-- ICON -->
+            </div>
+
+            <div class="col">
+                <a href="#"><b>{{ application.name }}</b></a>
+                <p>{{ application.description }}. Owned by <a href="{{ url_for('user_bp.profile', username=application.owner) }}">{{ application.owner }}</a></p>
+            </div>
+
+            <div class="col-auto">
+                <button type="button" class="btn btn-danger">Revoke</button>
+            </div>
+        </div>
+    </li>
+</ul>
+{% endfor %}
+{% endblock %}

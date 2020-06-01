@@ -1,3 +1,6 @@
+import os
+
+
 def _read_key(path):
     key = ""
     with open(path, "r") as f:
@@ -12,8 +15,8 @@ class Config:
     AUTHORIZATION_CODE_EXPIRY = 60 * 60
 
     JWT_ALGORITHM = "RS256"
-    JWT_PRIVATE_KEY = _read_key("/home/alexander/devel/ayeauth/env/jwt.private")
-    JWT_PUBLIC_KEY = _read_key("/home/alexander/devel/ayeauth/env/jwt.public")
+    JWT_PRIVATE_KEY = _read_key(os.environ["JWT_PRIVATE_KEY"])
+    JWT_PUBLIC_KEY = _read_key(os.environ["JWT_PUBLIC_KEY"])
     JWT_EXPIRATION = 60 * 60 * 24
     JWT_ISSUER = "ayeauth"
     JWT_AUDIENCE = "ayeama:ayeauth"

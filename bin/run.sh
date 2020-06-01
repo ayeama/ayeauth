@@ -2,5 +2,4 @@
 
 set -x
 
-# run ayeauth in debug mode
-ayeauth run --debug
+ayeauth run

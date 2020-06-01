@@ -43,6 +43,10 @@ class User(BaseModel, UserMixin):
     def __str__(self):
         return str(self.username)
 
+    def set_password(self, password):
+        self.password = hash_password(password)
+        db.session.commit()
+
 
 class AnonymousUser(AnonymousUserMixin):
     def __init__(self):

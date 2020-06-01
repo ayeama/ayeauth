@@ -16,7 +16,7 @@ def main(context):
 @click.option("--debug", is_flag=True)
 @click.pass_context
 def run(context, debug):
-    context.obj.run(debug=debug)
+    context.obj.run(host="0.0.0.0", debug=debug)
 
 
 @main.group("database")

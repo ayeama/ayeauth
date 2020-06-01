@@ -1,4 +1,4 @@
-from flask import Blueprint, current_app, redirect, render_template, url_for
+from flask import Blueprint, current_app, redirect, render_template, url_for, flash, request
 from flask_login import current_user, login_user, logout_user
 from flask_principal import AnonymousIdentity, Identity, identity_changed
 
@@ -24,6 +24,7 @@ def register():
         db.session.add(user)
         db.session.commit()
         login_user(user)
+        flash(f"Successfully registered. Welcome {user.username}", "success")
         return redirect(url_for("home_bp.index"))
 
     return render_template("/register.html", form=form, user=current_user)
@@ -38,7 +39,10 @@ def login():
         identity_changed.send(
             current_app._get_current_object(), identity=Identity(form.user.id)
         )
+        flash(f"Successfully logged in. Welcome {form.user.username}", "success")
         return redirect(url_for("home_bp.index"))
+    if request.method == "POST":
+        flash("Inncorrect username and or password", "danger")
 
     return render_template("/login.html", form=form, user=current_user)
 
@@ -49,4 +53,5 @@ def logout():
     identity_changed.send(
         current_app._get_current_object(), identity=AnonymousIdentity()
     )
+    flash(f"Successfully logged out.", "success")
     return redirect(url_for("auth_bp.login"))
