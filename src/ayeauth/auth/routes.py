@@ -61,5 +61,5 @@ def logout():
     identity_changed.send(
         current_app._get_current_object(), identity=AnonymousIdentity()
     )
-    flash(f"Successfully logged out.", "success")
+    flash("Successfully logged out.", "success")
     return redirect(url_for("auth_bp.login"))
