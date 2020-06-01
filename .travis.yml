@@ -1,31 +1,9 @@
-language: python
-os: linux
-virtualenv:
-  system_site_packages: false
+dist: trusty
 
-matrix:
-  fast_finish: true
+services:
+  - docker
+
+jobs:
   include:
-    - python: 3.8
-      env: DISTRIB="ubuntu" TOX_PYTHON_VERSION="py38" COVERAGE="true"
-
-install:
-  - pip install tox pytest-cov pytest-virtualenv coverage coveralls flake8 pre-commit
-
-before_script:
-  - git config --global user.email "alex.michael.adams@gmail.com"
-  - git config --global user.name "Alexander Adams"
-
-script:
-  - pre-commit install
-  - pre-commit run --all-files
-  - pytest
-
-after_success:
-  - coveralls
-
-after_script:
-  - travis-cleanup
-
-cache:
-  pip: true
+    - state: build
+      script: docker build -t ayeauth .
