@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, render_template, url_for
+from flask import Blueprint, abort, redirect, render_template, url_for
 from flask_login import current_user, login_required
 from wtforms import SelectField
 
@@ -44,7 +44,19 @@ def test():
 def index():
     applications = Application.query.all()
     return render_template(
-        "application.html", applications=applications, user=current_user
+        "all_applications.html", applications=applications, user=current_user
+    )
+
+
+@application_bp.route("/<name>")
+@login_required
+def view(name):
+    application = Application.query.filter_by(name=name).first()
+    if application is None:
+        abort(404)
+
+    return render_template(
+        "single_application.html", application=application, user=current_user
     )
 
 

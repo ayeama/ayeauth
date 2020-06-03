@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title %}<title>{{ application.name }}</title>{% endblock %}
+
+{% block content %}
+<h1>{{ application.name }}</h1>
+<dl class="row">
+    <dt class="col-3">Name</dt>
+    <dd class="col-9">{{ application.name }}</dd>
+
+    <dt class="col-3">Description</dt>
+    <dd class="col-9">{{ application.description }}</dd>
+
+    <dt class="col-3">Redirect URI</dt>
+    <dd class="col-9">{{ application.redirect_uri }}</dd>
+
+    <dt class="col-3">Client ID</dt>
+    <dd class="col-9">{{ application.client_id }}</dd>
+
+    <dt class="col-3">Scopes</dt>
+    <dd class="col-9">
+        <ul>
+            {% for x in application.scopes %}
+            <li>
+                <p><b>{{ x.scope.name }}</b> | {{ x.scope_access.value }} | {{ x.scope.description }}</p>
+            </li>
+            {% endfor %}
+        </ul>
+    </dd>
+</dl>
+{% endblock %}
